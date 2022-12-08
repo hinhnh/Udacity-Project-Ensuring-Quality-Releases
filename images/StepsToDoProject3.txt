@@ -1,0 +1,74 @@
+
+
+On Linux / macOS:
+sudo pip install pip --upgrade
+On Windows:
+py -m pip install pip --upgrade
+
+1. check version pip of python on window
+py -m pip --version
+2. install selenium on window with pip
+
+python -m pip install selenium
+
+$$("a[href='https://phuhunggroup.com.vn/san-pham' class='button primary lowercase']")
+
+$$("a[href=\"https://phuhunggroup.com.vn/san-pham\" class='button primary lowercase']")
+
+==========================================
+ {
+    "cloudName": "AzureCloud",
+    "homeTenantId": "a94dbb26-828f-415c-b2fd-0f3ed3f9559c",
+    "id": "f61393fa-c1cf-445a-8214-6bda3a97bbaf",
+    "isDefault": true,
+    "managedByTenants": [],
+    "name": "My-Lab-Udacity",
+    "state": "Enabled",
+    "tenantId": "a94dbb26-828f-415c-b2fd-0f3ed3f9559c",    
+    "user": {
+      "name": "hinhlab@gmail.com",
+      "type": "user"
+    }
+  }
+  =======================================================     	
+
+  "client_id": "7be8a50e-b7a9-42a9-a731-8b1c348ee38d",
+  "client_secret": "ESk8Q~J8e82Ld46KY9jdAUYfRE-ZTogvqOXfdbyS",
+  "tenant_id": "a94dbb26-828f-415c-b2fd-0f3ed3f9559c"
+  "subscription_id": "f61393fa-c1cf-445a-8214-6bda3a97bbaf"
+  
+   1. show info of account
+   az account show  --query "{ client_id: appId, client_secret: password, tenant_id: tenant }"
+   
+   # Create a service principal with required parameter
+az ad sp create-for-rbac --scopes /subscriptions/f61393fa-c1cf-445a-8214-6bda3a97bbaf  --query "{ client_id: appId, client_secret: password, tenant_id: tenant }"
+
+az ad sp create-for-rbac --name myServicePrincipalName \
+                         --role reader \
+                         --scopes /subscriptions/mySubscriptionID/resourceGroups/myResourceGroupName
+
+az ad sp create-for-rbac --name myServicePrincipalName --role reader --scopes /subscriptions/f61393fa-c1cf-445a-8214-6bda3a97bbaf --query "{ client_id: appId, client_secret: password, tenant_id: tenant }"		
+az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/f61393fa-c1cf-445a-8214-6bda3a97bbaf" --query "{ client_id: appId, client_secret: password, tenant_id: tenant }"
+=====
+1. run file .sh:
+ bash ./configure-tfstate-storage-account.sh
+ 
+* create resource group:  az group create --name "AzureDevops" --location eastus
+
+   az storage account create --resource-group "AzureDevops" --name $bash --sku Standard_LRS --encryption-services blob
+   az storage account create --resource-group "AzureDevops" --name "tfstateudacityaccount" --sku Standard_LRS --encryption-services blob
+
+ # Get storage account key
+ACCOUNT_KEY=$(az storage account keys list --resource-group AzureDevops --account-name tfstateudacityaccount --query '[0].value' -o tsv)
+export ARM_ACCESS_KEY: fjL+68Ode3aikf64+HCpNiSP9x+wtPPFTnNkM2thxQaNqKxwv9wWlEUm7Os9RtNYSnbcXSxp8ab0+ASt/VZdFQ==
+
+
+=======================================================
+cd /mnt/E/Projects/Udacity/Udacity-Project3/Udacity-Project-Ensuring-Quality-Releases/terraform\environments/test
+==================================================================
+
+ "client_id": "c03d2ea9-71b8-486a-8ba3-60458cca2b8f",        
+  "client_secret": "HaA8Q~k6rDREKD-CvcL6kO66mHj44bcrLLSRgcJu",
+  "tenant_id": "a94dbb26-828f-415c-b2fd-0f3ed3f9559c"
+  
+az storage container create --name "tfstate" --account-name "tfstateudacityaccount"  --account-key "fjL+68Ode3aikf64+HCpNiSP9x+wtPPFTnNkM2thxQaNqKxwv9wWlEUm7Os9RtNYSnbcXSxp8ab0+ASt/VZdFQ=="

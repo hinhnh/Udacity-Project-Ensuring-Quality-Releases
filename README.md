@@ -1,10 +1,40 @@
-# Project Starter
-This repository contains the starter code for the **Ensuring Quality Releases** project of the cd1807 Ensuring Quality Releases (Quality Assurance) course taught by Nathan Anderson. 
 
 
-## How to use?
-- Fork this repository to your Github account and clone it locally for further development. 
-- Follow the classroom instructions, and check the rubric before a submission. 
+myPAT: q7unouc6snyumdiwnthscrakhtqaceifmdtqpasy73md5wtvplua
 
-## Suggestions and Corrections
-Feel free to submit PRs to this repo should you have any proposed changes. 
+Storage account:
+RESOURCE_GROUP_NAME=AzureDevops
+STORAGE_ACCOUNT_NAME=tfstateudacityaccount
+CONTAINER_NAME=tfstate
+ACCOUNT_KEY=fjL+68Ode3aikf64+HCpNiSP9x+wtPPFTnNkM2thxQaNqKxwv9wWlEUm7Os9RtNYSnbcXSxp8ab0+ASt/VZdFQ==
+
+===============================================================================================================
+This project demonstrate how to build a pipeline that:
+* Auto build and deploy a website to an app service, deploy to a virtual machine to run selenium
+* 
+
+# Prequisite
+* This tutorial is performed on Linux Ubuntu 20.04 LTS
+* You have to install:
+    * Azure CLI
+    * Visual studio code (VS code)
+    * Terraform (If you wish to test terraform step on local)
+    * Postman
+    * Jmeter
+    * Selenium
+
+
+ 
+# I. Setup azure devops
+## 1. Clone the project
+* Open bash and clone project using this command:
+
+``` bash
+$ git clone https://github.com/nghianv201096/UdacityDevops3_EnsuringQualityReleases.git
+```
+
+* Go to project folder and open it with VS code:
+``` bash
+$ cd UdacityDevops3_EnsuringQualityReleases.git
+$ code .
+```   

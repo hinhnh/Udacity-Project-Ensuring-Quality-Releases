@@ -74,6 +74,4 @@ cd /mnt/E/Projects/Udacity/Udacity-Project3/Udacity-Project-Ensuring-Quality-Rel
 az storage container create --name "tfstate" --account-name "tfstateudacityaccount"  --account-key "fjL+68Ode3aikf64+HCpNiSP9x+wtPPFTnNkM2thxQaNqKxwv9wWlEUm7Os9RtNYSnbcXSxp8ab0+ASt/VZdFQ=="
 
 
-
-
 ssh hinhnh@4.227.205.38

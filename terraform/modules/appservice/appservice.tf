@@ -9,6 +9,7 @@ resource "azurerm_service_plan" "test" {
   }
 }
 
+
 resource "azurerm_windows_web_app" "test" {
   name                = "${var.application_type}-${var.resource_type}-webap"
   location            = "${var.location}"

@@ -52,7 +52,7 @@ stages:
         provider: 'azurerm'
         command: 'validate'
 
-    # OPTIONAL - This step is needed only if your Terraform VM uses an SSH key pair for login and you want your pipeline agent to connect to it. 
+      # OPTIONAL - This step is needed only if your Terraform VM uses an SSH key pair for login and you want your pipeline agent to connect to it. 
     # Generate an SSH key pair in your local/AZ Cloud shell. Use the public key in the Terraform VM module. 
     # Install public key and private key file to the pipeline agent, using the task below. 
     # ToDo: Change the inputs value below
@@ -90,38 +90,38 @@ stages:
     #     environmentServiceNameAzureRM: '$(azureServiceConnectionId)'
 
 #--------------------------------------------#    
-    # Postman - Install Newman    
-    # ToDo: Update the command and verify the working directory
-    - task: CmdLine@2
-      displayName: Install Newman
-      inputs:
-        script:           # ToDo: Write your commands to install newman
-        workingDirectory: $(System.DefaultWorkingDirectory)
-    # Postman Data Validation Test Suite    
-    # ToDo: Verify the working directory and the newman scripts
-    - task: CmdLine@2
-      displayName: Run Data Validation Tests
-      continueOnError: true
-      inputs:
-        script:           # ToDo: Write your commands
-        workingDirectory: '$(System.DefaultWorkingDirectory)/automatedtesting/postman'
-    # Postman Regression Test Suite    
-    # ToDo: Update the command and verify the working directory
-    - task: CmdLine@2
-      displayName: Run Regression Tests
-      continueOnError: true
-      inputs:
-        script:           # ToDo: Write your commands
-        workingDirectory: '$(System.DefaultWorkingDirectory)/automatedtesting/postman'
-    # Postman - Publish Results 
-    # ToDo: Complete the task as explained here: https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/test/publish-test-results?view=azure-devops&tabs=trx%2Cyaml#yaml-snippet
-    - task: PublishTestResults@2
-      inputs:
-        testResultsFormat: 'JUnit'
-        testResultsFiles: '**/TEST-*.xml'
-        searchFolder:       # ToDo
-        mergeTestResults: true
-        testRunTitle:       # ToDo
+    ## Postman - Install Newman    
+    ## ToDo: Update the command and verify the working directory
+    #- task: CmdLine@2
+    #  displayName: Install Newman
+    #  inputs:
+    #    script:           # ToDo: Write your commands to install newman
+    #    workingDirectory: $(System.DefaultWorkingDirectory)
+    ## Postman Data Validation Test Suite    
+    ## ToDo: Verify the working directory and the newman scripts
+    #- task: CmdLine@2
+    #  displayName: Run Data Validation Tests
+    #  continueOnError: true
+    #  inputs:
+    #    script:           # ToDo: Write your commands
+    #    workingDirectory: '$(System.DefaultWorkingDirectory)/automatedtesting/postman'
+    ## Postman Regression Test Suite    
+    ## ToDo: Update the command and verify the working directory
+    #- task: CmdLine@2
+    #  displayName: Run Regression Tests
+    #  continueOnError: true
+    #  inputs:
+    #    script:           # ToDo: Write your commands
+    #    workingDirectory: '$(System.DefaultWorkingDirectory)/automatedtesting/postman'
+    ## Postman - Publish Results 
+    ## ToDo: Complete the task as explained here: https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/test/publish-test-results?view=azure-devops&tabs=trx%2Cyaml#yaml-snippet
+    #- task: PublishTestResults@2
+    #  inputs:
+    #    testResultsFormat: 'JUnit'
+    #    testResultsFiles: '**/TEST-*.xml'
+    #    searchFolder:       # ToDo
+    #    mergeTestResults: true
+    #    testRunTitle:       # ToDo
 
     #--------------------------------------------#
     # Selenium (UI) Test Suite - Archive the package  
@@ -136,7 +136,7 @@ stages:
     # Selenium Test Suite - Publish the package  
     - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-uitests.zip   # Same as the archiveFile artifact above. 
       displayName: 'Upload Package'
-      artifact: drop-uitests
+      artifact: drop-ui-tests
 
     #--------------------------------------------#    
     # FakeRestAPI - Archive
@@ -144,14 +144,14 @@ stages:
     - task: ArchiveFiles@2
       displayName: 'Archive FakeRestAPI'
       inputs:
-        rootFolderOrFile: 
-        includeRootFolder:
-        archiveType: 
-        archiveFile: 
+        rootFolderOrFile: '$(System.DefaultWorkingDirectory)/automatedtesting/jmeter/fakerestapi'
+        includeRootFolder:  false
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-fakerestapi.zip'
     # FakeRestAPI - Publish    
-    - publish: 
-      displayName: 
-      artifact: 
+    - publish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-fakerestapi.zip'
+      displayName: 'Publish FakeRestAPI'
+      artifact: drop-fakerestapi
 
     #--------------------------------------------#  
     # JMeter (Performance) Test Suite - Archive
@@ -159,14 +159,25 @@ stages:
     - task: ArchiveFiles@2
       displayName: 'Archive PerformanceTestSuite'
       inputs:
-        rootFolderOrFile: 
-        includeRootFolder:
-        archiveType: 
-        archiveFile: 
+        rootFolderOrFile: '$(System.DefaultWorkingDirectory)/automatedtesting/jmeter'
+        includeRootFolder: false
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-jmeter.zip'
     # JMeter Test Suite - Publish    
-    - publish: 
-      displayName: 
-      artifact: 
+    - publish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-jmeter.zip'
+      displayName: 'Publish JMeter'
+      artifact: drop-jmeter
+
+    - task: ArchiveFiles@2
+      displayName: 'Archive Postman tests'
+      inputs:
+        rootFolderOrFile: '$(System.DefaultWorkingDirectory)/automatedtesting/postman'
+        includeRootFolder: false
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-postman.zip'
+    - publish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-postman.zip'
+      displayName: 'Publish Postman'
+      artifact: drop-postman
 
 #--------------------------------------------#  
 # DEPLOYMENT STAGE
@@ -179,7 +190,7 @@ stages:
   - deployment: FakeRestAPI
     pool:
       vmImage: 'Ubuntu-18.04'      
-    environment: <environment name>   # ToDo
+    environment: $(environmentName)
     strategy:
       runOnce:
         deploy:
@@ -187,19 +198,21 @@ stages:
           - task: AzureWebApp@1
             displayName: 'Deploy Azure Web App'
             inputs:
-              azureSubscription:      # ToDo
-              appName:                # ToDo
+              azureSubscription: $(azureServiceConnectionId)
+              appName: DuongNQ9Application-AppService
               appType: webApp
-              package: $(Pipeline.Workspace)/<artifact>/<archiveFile>       # ToDo: Use the published zip artifact. 
+              package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip
           #--------------------------------------------#    
           # Run JMeter test suite against the App Service
           # ToDo: Update the script below to install jmeter, unzip the jmeter test suite published zip artifact, and run the PerformanceTestSuite.  
           # ToDo: Generate the log file. 
-          - task: CmdLine@2
-            inputs:
-              script: |
-                                                                            # ToDo: Write your commands
-              workingDirectory: $(Pipeline.Workspace)/<artifact>            # ToDo: Use the artifact name from the task above
+          # - task: CmdLine@2
+          #   inputs:
+          #     script: |
+          #       cd
+          #       dir
+          #       powershell -command
+          #     workingDirectory: $(Pipeline.Workspace)/drop-fakerestapi      
               
   #--------------------------------------------#  
   # Selenium | Functional UI Tests
@@ -207,32 +220,163 @@ stages:
   - deployment: VMDeploy
     displayName: Selenium Tests
     environment:
-      name:         # ToDo: Change/provide a name
+      name:  $(environmentName)       # ToDo: Change/provide a name
       resourceType: VirtualMachine
-      tags: selenium
     strategy:
       runOnce:
         deploy:
           steps:
           - download: current
-            artifact: drop-ui-tests     # ToDo: Change/provide a name
-            
+            artifact: drop-ui-tests    # ToDo: Change/provide a name
           - task: Bash@3
+            displayName: 'Install Selenium'
             inputs:
               targetType: 'inline'
-              script: |           
-                # ToDo: Install Selenium, Chromium-browser & Chromedriver, if not already in the custom VM image. 
+              script: |
                 #! /bin/bash
                 
-                sudo apt-get upgrade -y
+                sudo apt-get update -y
                 sudo apt-get install python3-pip -y
                 sudo apt-get install unzip -y
                 sudo apt-get install -y chromium-browser
-                pip3 install selenium
-                
-                #  ToDo: Add chromedriver executable to path
-                export PATH=$PATH:/path/to/chromedriver     
-                
-                # ToDo: Write commands for deploying the UI Test Suite (published zip artifact) to the linux VM and execute the Test Suite
-                # ToDo: Direct the output of the Selenium Test Suite to a log file
-                
+                sudo apt-get install -y chromium-chromedriver
+                sudo python3 -m pip install --upgrade pip
+                sudo pip3 install selenium==3.141.0 
+                export PATH=$PATH:/usr/lib/chromium-browser/
+                cd $(Pipeline.Workspace)/drop-ui-tests
+                unzip -o $(Pipeline.Workspace)/drop-ui-tests/$(Build.BuildId)-uitests.zip -d .
+          - bash: |
+                cd $(Pipeline.Workspace)/drop-ui-tests
+                #rm -rf seleniumtestrun.log
+                pwd
+                python3 login.py > seleniumtestrun.log
+                ls -lah
+                #sudo mkdir /var/log/selenium
+                sudo cat seleniumtestrun.log
+                sudo cp seleniumtestrun.log /var/log/selenium/
+            displayName: Run Selenium Test-Suite
+          - task: PublishPipelineArtifact@1
+            displayName: Publish Selenium Result logs
+            inputs:
+              targetPath: '$(Pipeline.Workspace)/drop-ui-tests/seleniumtestrun.log'
+              artifactName: 'SeleniumTestResult'
+
+# #--------------------------------------------#  
+# # TEST POSTMAN
+# #--------------------------------------------#    
+# - stage: Test
+#   condition: true
+#   jobs:
+#   - job: TestWithPostman
+#     condition: true
+#     displayName: 'Test Postman'
+#     steps:
+#     - task: NodeTool@0
+#       displayName: Install Node v16.X
+#       inputs:
+#         versionSpec: '16.x'
+#     - download: current
+#       displayName: Download postman
+#       artifact: drop-postman
+#     - task: CmdLine@2
+#       displayName: Install Newman
+#       inputs:
+#         script: |
+#           #mkdir ~/.npm-global
+#           npm config set prefix '~/.npm-global'
+#           export PATH=~/.npm-global/bin:$PATH
+#           source ~/.profile
+#           sudo apt install nodejs npm -y
+#           nodejs --version
+#           npm install -g newman
+#           cd $(Pipeline.Workspace)/drop-postman
+#           unzip -o $(Pipeline.Workspace)/drop-postman/$(Build.BuildId)-postman -d .
+#         workingDirectory: $(System.DefaultWorkingDirectory)
+
+#    # Postman Data Validation Test Suite    
+#    # ToDo: Verify the working directory and the newman scripts
+#     - task: CmdLine@2
+#       condition: true
+#       displayName: Run Data Validation Tests
+#       continueOnError: true
+#       inputs:
+#         script: |
+#           export PATH=~/.npm-global/bin:$PATH
+#           chmod 744 ~/.npm-global/bin/newman
+#           newman run ValidationTest.json --reporters cli,junit --reporter-junit-export results\ValidationTest.xml
+#         workingDirectory: '$(System.DefaultWorkingDirectory)/automatedtesting/postman'
+
+#    # Postman Regression Test Suite    
+#    # ToDo: Update the command and verify the working directory
+#     - task: CmdLine@2
+#       displayName: Run Regression Tests
+#       continueOnError: true
+#       inputs:
+#         script: |
+#           export PATH=~/.npm-global/bin:$PATH
+#           chmod 744 ~/.npm-global/bin/newman
+#           newman run RegressionTest.json --reporters cli,junit --reporter-junit-export results\RegressionTest.xml
+#         workingDirectory: '$(System.DefaultWorkingDirectory)/automatedtesting/postman'
+#    # Postman - Publish Results 
+#    # ToDo: Complete the task as explained here: https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/test/publish-test-results?view=azure-devops&tabs=trx%2Cyaml#yaml-snippet
+#     - task: PublishTestResults@2
+#       displayName: 'Publish test result'
+#       inputs:
+#         testResultsFormat: 'JUnit'
+#         testResultsFiles: '**/*Test.xml'
+#         #searchFolder: '$(System.DefaultWorkingDirectory)/automatedtesting/postman/results'
+#         mergeTestResults: true
+#         testRunTitle: 'Postman regression and data validation test'
+#   # TEST JMETER
+#   - job: JmeterTests
+#     displayName: Jmeter Tests
+#     steps: 
+#     - task: CmdLine@2
+#       displayName: Install Jmeter
+#       inputs:
+#         script: |
+#           sudo apt-get install openjdk-11-jre-headless -y
+#           java -version
+#           wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.4.tgz -O jmeter.tgz
+#           tar xzvf jmeter.tgz
+#           apache-jmeter-5.4/bin/jmeter --version
+#           # create log directory
+#           mkdir -p log/jmeter
+#           ls
+#         workingDirectory: $(System.DefaultWorkingDirectory)
+
+#     - bash: |
+#         $(System.DefaultWorkingDirectory)/apache-jmeter-5.4/bin/jmeter -n -t automatedtesting/jmeter/StressTest.jmx \
+#                                         -l $(System.DefaultWorkingDirectory)/log/jmeter/stress-test-result.csv \
+#                                         -e -f -o $(System.DefaultWorkingDirectory)/log/jmeter/stress-test-html-report \
+#                                         -j $(System.DefaultWorkingDirectory)/log/jmeter/jmeter-stress-test.log
+#       displayName: JMeter stress test
+#       workingDirectory: '$(System.DefaultWorkingDirectory)'
+#     - bash: |
+#         $(System.DefaultWorkingDirectory)/apache-jmeter-5.4/bin/jmeter -n -t automatedtesting/jmeter/EnduranceTest.jmx \
+#                                         -l $(System.DefaultWorkingDirectory)/log/jmeter/endurance-test-result.csv \
+#                                         -e -f -o $(System.DefaultWorkingDirectory)/log/jmeter/endurance-test-html-report \
+#                                         -j $(System.DefaultWorkingDirectory)/log/jmeter/jmeter-endurance-test.log
+#       displayName: JMeter Endurance test
+#       workingDirectory: '$(System.DefaultWorkingDirectory)'
+#     - task: ArchiveFiles@2
+#       displayName: Archive JMeter stress test HTML report
+#       inputs:
+#         rootFolderOrFile: '$(System.DefaultWorkingDirectory)/log/jmeter/stress-test-html-report'
+#         includeRootFolder: false
+#         archiveType: 'zip'
+#         archiveFile: '$(System.DefaultWorkingDirectory)/log/jmeter/stress-test-html-report-$(Build.BuildId).zip'
+#         verbose: true
+#     - task: ArchiveFiles@2
+#       displayName: Archive JMeter endurance test HTML report
+#       inputs:
+#         rootFolderOrFile: '$(System.DefaultWorkingDirectory)/log/jmeter/endurance-test-html-report'
+#         includeRootFolder: false
+#         archiveType: 'zip'
+#         archiveFile: '$(System.DefaultWorkingDirectory)/log/jmeter/endurance-test-html-report-$(Build.BuildId).zip'
+#         verbose: true
+#     - task: PublishPipelineArtifact@1
+#       displayName: Publish JMeter logs
+#       inputs:
+#         targetPath: '$(System.DefaultWorkingDirectory)/log/jmeter'
+#         artifactName: 'drop-jmeter-logs'

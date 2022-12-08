@@ -1,9 +1,12 @@
 resource "azurerm_service_plan" "test" {
   name                = "${var.application_type}-${var.resource_type}-plan"
   location            = "${var.location}"
-  resource_group_name = "${var.resource_group}"
-  os_type             = "Windows"
-  sku_name            = "P1v2"
+  resource_group_name = "${var.resource_group}"  
+
+   sku {
+    tier = "Free"
+    size = "F1"
+  }
 }
 
 resource "azurerm_windows_web_app" "test" {
@@ -15,7 +18,7 @@ resource "azurerm_windows_web_app" "test" {
   app_settings = {
     "WEBSITE_RUN_FROM_PACKAGE" = 0
   }
-  site_config {
-    always_on = false
-  }
+  
 }
+
+

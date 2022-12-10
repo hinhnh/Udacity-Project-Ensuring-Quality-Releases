@@ -1,6 +1,7 @@
 
-
+hinhlab:
 myPAT: q7unouc6snyumdiwnthscrakhtqaceifmdtqpasy73md5wtvplua
+===============================================================
 
 Storage account:
 RESOURCE_GROUP_NAME=AzureDevops
@@ -9,6 +10,13 @@ CONTAINER_NAME=tfstate
 ACCOUNT_KEY=fjL+68Ode3aikf64+HCpNiSP9x+wtPPFTnNkM2thxQaNqKxwv9wWlEUm7Os9RtNYSnbcXSxp8ab0+ASt/VZdFQ==
 
 ===============================================================================================================
+
+
+
+
+
+
+
 This project demonstrate how to build a pipeline that:
 * Auto build and deploy a website to an app service, deploy to a virtual machine to run selenium
 * 

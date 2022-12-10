@@ -13,10 +13,6 @@ ACCOUNT_KEY=fjL+68Ode3aikf64+HCpNiSP9x+wtPPFTnNkM2thxQaNqKxwv9wWlEUm7Os9RtNYSnbc
 
 
 
-
-
-
-
 This project demonstrate how to build a pipeline that:
 * Auto build and deploy a website to an app service, deploy to a virtual machine to run selenium
 * 

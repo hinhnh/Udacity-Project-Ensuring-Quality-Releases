@@ -2,13 +2,6 @@
 hinhlab:
 myPAT: q7unouc6snyumdiwnthscrakhtqaceifmdtqpasy73md5wtvplua
 ===============================================================
-
-Storage account:
-RESOURCE_GROUP_NAME=AzureDevops
-STORAGE_ACCOUNT_NAME=tfstateudacityaccount
-CONTAINER_NAME=tfstate
-ACCOUNT_KEY=fjL+68Ode3aikf64+HCpNiSP9x+wtPPFTnNkM2thxQaNqKxwv9wWlEUm7Os9RtNYSnbcXSxp8ab0+ASt/VZdFQ==
-
 ===============================================================================================================
 
 This project demonstrate how to build a pipeline that:

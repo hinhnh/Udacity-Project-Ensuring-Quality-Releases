@@ -13,9 +13,9 @@ In this project, we will develop and demonstrate for using a variety of industry
     * Selenium
 
 
-## Instructions
-# I. Setup azure devops
-## 1. Clone the project
+# Instructions
+## I. Setup azure devops
+### 1. Clone the project
 * Open bash and clone project using this command:
 
 ``` bash
@@ -27,7 +27,7 @@ $ git clone https://github.com/hinhnh/Udacity-Project-Ensuring-Quality-Releases.
 $ cd Udacity-Project-Ensuring-Quality-Releases.git
 $ code .
 ```   
-## 2. Login to azure devops
+### 2. Login to azure devops
 Go to https://dev.azure.com and login using your azure account.
 
 ## 3. Create a project

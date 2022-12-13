@@ -200,7 +200,7 @@ stages:
             displayName: 'Deploy Azure Web App'
             inputs:
               azureSubscription: $(azureServiceConnectionId)
-              appName: DuongNQ9Application-AppService
+              appName: devops-azure-test-app-service-webapp
               appType: webApp
               package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip
           #--------------------------------------------#    
@@ -252,7 +252,7 @@ stages:
                 pwd
                 python3 login.py > seleniumtestrun.log
                 ls -lah
-                #sudo mkdir /var/log/selenium
+                sudo mkdir -p /var/log/selenium
                 sudo cat seleniumtestrun.log
                 sudo cp seleniumtestrun.log /var/log/selenium/
             displayName: Run Selenium Test-Suite

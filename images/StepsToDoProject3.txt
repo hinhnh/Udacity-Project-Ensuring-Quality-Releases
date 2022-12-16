@@ -82,3 +82,9 @@ ssh hinhnh@20.232.173.186
 *Configure Azure Monitor to create alert for App Service
 *Configure Logging for the VM in the Azure Portal.
 *Project Submission Requirements
+==============================
+To delete the file named myfile, type the following:
+rm myfile
+
+To delete all the files in the mydir directory, one by one, type the following:
+rm -i mydir/*

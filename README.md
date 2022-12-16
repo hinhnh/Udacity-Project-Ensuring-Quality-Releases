@@ -35,12 +35,12 @@ Go to https://dev.azure.com and login using your azure account.
 ![Set policy](./images/II_I_Set_policy.png)
 
 * Create a public project
-![Create public project](./images/II_1_create-public-project.png)
+![Create public project](./images/Crate-project-devops.jpg)
 
 ### 4. Create a service connection to Azure
 Create a service connection that enable terraform to access to Azure resource for creating resources:
 
-![Create service connection](./images/II_5_create-service-connection.png)
+![Create service connection](./images/Create-service-connection-with-Azure-resource-manager.jpg)
 
 ### 5. Create a service principal
 Create a service principal for terraform uses later.
@@ -69,7 +69,7 @@ $ ./configure-tfstate-storage-account.sh
 ### 2. Configure the service principal
 * Update the terraform.tfvars using ouput in [this](#6-create-a-service-principal) step
 
-![Update](./images/II_2_Update-service-principal.png)
+![Update](./images/Create-a service-principal.jpg)
 
 **Note:** you might want to update username and password of virtual machine used for agent pool as well in line 20,21
 ## 3. Test terraform in local
@@ -89,7 +89,7 @@ After finish all of above steps. You need to create a repository in Gihub and pu
 
 ## III. Create a pipeline
 ### 1. Create a pipeline with an existing yaml file
-![Create a pipeline](./images/III_1_Create-pipeline.png)
+![Create a pipeline](./images/III_1_Create-pipeline.jpg)
 
 ### 2. Install the terraform extension
 Go to this [page]( https://marketplace.visualstudio.com/acquisition?itemName=ms-devlabs.custom-terraform-tasks) and install extension.

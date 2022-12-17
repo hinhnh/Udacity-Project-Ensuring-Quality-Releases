@@ -16,7 +16,7 @@ resource "azurerm_linux_virtual_machine" "test" {
   name                = "hinhnh-project3-devops-linux-vm"
   location            = var.location
   resource_group_name = var.resource_group
-  size                = "Standard_B1ls"
+  size                = "Standard D2s v3"
   admin_username      = "${var.vm_username}"
   admin_password      = "${var.vm_password}"
   disable_password_authentication = false

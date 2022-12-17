@@ -78,6 +78,7 @@ az storage container create --name "tfstate" --account-name "tfstateudacityaccou
 
 ssh hinhnh@4.227.205.38
 ssh hinhnh@20.232.173.186
+ssh hinhnh@137.135.104.73
 ================================================
 *Configure Azure Monitor to create alert for App Service
 *Configure Logging for the VM in the Azure Portal.

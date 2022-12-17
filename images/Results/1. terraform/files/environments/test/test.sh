@@ -1,0 +1,7 @@
+#!/bin/bash
+RESOURCE_GROUP_NAME="Azuredevops"
+echo "CONTAINER_NAME=$RESOURCE_GROUP_NAME"
+
+
+
+

@@ -127,6 +127,7 @@ After create the pipeline you can go to the pipeline and run it:
 
 * Resources' metric
 
+
 ### 7. Log analytic query of AppService
 
 
